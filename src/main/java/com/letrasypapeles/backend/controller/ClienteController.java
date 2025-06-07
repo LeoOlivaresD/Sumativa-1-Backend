@@ -4,6 +4,7 @@ import com.letrasypapeles.backend.entity.Cliente;
 import com.letrasypapeles.backend.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
@@ -11,6 +12,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clientes")
 public class ClienteController {
+
+    @PreAuthorize("hasRole('CLIENTE')")
+    @GetMapping("cliente")
+    public ResponseEntity<String> cliente() {
+        return ResponseEntity.ok("Eres el cliente");
+    }
 
     @Autowired
     private ClienteService clienteService;
