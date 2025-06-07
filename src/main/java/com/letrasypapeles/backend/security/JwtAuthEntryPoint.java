@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+//Clase para poder manejar las excepciones de tipo autenticacion en nuestra app
 @Component
 public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override
