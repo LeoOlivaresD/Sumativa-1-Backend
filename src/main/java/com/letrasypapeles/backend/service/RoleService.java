@@ -1,6 +1,7 @@
 package com.letrasypapeles.backend.service;
 
 import com.letrasypapeles.backend.entity.Role;
+import com.letrasypapeles.backend.entity.RoleEntity;
 import com.letrasypapeles.backend.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,19 +15,19 @@ public class RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
-    public List<Role> obtenerTodos() {
+    public List<RoleEntity> obtenerTodos() {
         return roleRepository.findAll();
     }
 
-    public Optional<Role> obtenerPorNombre(String nombre) {
-        return roleRepository.findByNombre(nombre);
+    public Optional<RoleEntity> obtenerPorNombre(String nombre) {
+        return roleRepository.findByName(nombre);
     }
 
-    public Role guardar(Role role) {
+    public RoleEntity guardar(RoleEntity role) {
         return roleRepository.save(role);
     }
 
     public void eliminar(String nombre) {
-        roleRepository.deleteById(nombre);
+        roleRepository.deleteByName(nombre);
     }
 }

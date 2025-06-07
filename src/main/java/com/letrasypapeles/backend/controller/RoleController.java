@@ -1,6 +1,7 @@
 package com.letrasypapeles.backend.controller;
 
 import com.letrasypapeles.backend.entity.Role;
+import com.letrasypapeles.backend.entity.RoleEntity;
 import com.letrasypapeles.backend.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,21 +16,21 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-    public ResponseEntity<List<Role>> obtenerTodos() {
-        List<Role> roles = roleService.obtenerTodos();
+    public ResponseEntity<List<RoleEntity>> obtenerTodos() {
+        List<RoleEntity> roles = roleService.obtenerTodos();
         return ResponseEntity.ok(roles);
     }
 
     @GetMapping("/{nombre}")
-    public ResponseEntity<Role> obtenerPorNombre(@PathVariable String nombre) {
+    public ResponseEntity<RoleEntity> obtenerPorNombre(@PathVariable String nombre) {
         return roleService.obtenerPorNombre(nombre)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Role> crearRole(@RequestBody Role role) {
-        Role nuevoRole = roleService.guardar(role);
+    public ResponseEntity<RoleEntity> crearRole(@RequestBody RoleEntity role) {
+        RoleEntity nuevoRole = roleService.guardar(role);
         return ResponseEntity.ok(nuevoRole);
     }
 

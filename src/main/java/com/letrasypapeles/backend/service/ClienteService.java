@@ -2,6 +2,7 @@ package com.letrasypapeles.backend.service;
 
 import com.letrasypapeles.backend.entity.Cliente;
 import com.letrasypapeles.backend.entity.Role;
+import com.letrasypapeles.backend.entity.RoleEntity;
 import com.letrasypapeles.backend.repository.ClienteRepository;
 import com.letrasypapeles.backend.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,11 @@ public class ClienteService {
         cliente.setPuntosFidelidad(0);
 
         // Asignar el rol "CLIENTE"
-        Role roleCliente = roleRepository.findByNombre("CLIENTE")
-                .orElse(new Role("CLIENTE"));
-        cliente.setRoles(Collections.singleton(roleCliente));
+        Role role = new Role("CLIENTE");
+        RoleEntity roleEntity = new RoleEntity(role.getNombre());
+
+        RoleEntity roleCliente = roleRepository.findByName("CLIENTE")
+                .orElse(roleEntity);
 
         return clienteRepository.save(cliente);
     }

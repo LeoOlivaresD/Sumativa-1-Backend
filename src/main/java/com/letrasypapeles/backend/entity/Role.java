@@ -16,6 +16,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class Role {
 
+    public Role(String string) {
+        // TODO Auto-generated constructor stub
+    }
+
     @Id
     private String nombre;
 
