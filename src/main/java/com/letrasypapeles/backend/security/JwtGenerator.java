@@ -18,34 +18,53 @@ public class JwtGenerator {
     // Metodo para crear un token por medio de la autenticacion
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
-        Date currenDate = new Date(); //Establecemos el tiempo actual del momento
-        Date expirationDate = new Date(currenDate.getTime() + SecurityConstants.JWT_EXPIRATION_TIME); //Aca establecemos el tiempo que de expiracion apartir del tiempo actual que se dio antes
+        Date currenDate = new Date(); // Establecemos el tiempo actual del momento
+        Date expirationDate = new Date(currenDate.getTime() + SecurityConstants.JWT_EXPIRATION_TIME); // Aca
+                                                                                                      // establecemos el
+                                                                                                      // tiempo que de
+                                                                                                      // expiracion
+                                                                                                      // apartir del
+                                                                                                      // tiempo actual
+                                                                                                      // que se dio
+                                                                                                      // antes
 
-        //Aca comenzamos a crear nuestro token
-        String token = Jwts.builder()
-                .setSubject(username) //Se pasa el nombre del usuario
-                .setIssuedAt(new Date())   // se indica el inicio de nuestro token
-                .setExpiration(expirationDate) //se indica la expiracion del token
-                .signWith(key, SignatureAlgorithm.HS512) //usamos la firma que creamos en nuestras constantes
-                .compact();
-
+        // Linea para generar el token
+        String token = Jwts.builder() // Construimos un token JWT llamado token
+                .setSubject(username) // Aca establecemos el nombre de usuario que está iniciando sesión
+                .setIssuedAt(new Date()) // Establecemos la fecha de emisión del token en el momento actual
+                .setExpiration(expirationDate) // Establecemos la fecha de caducidad del token
+                .signWith(key, SignatureAlgorithm.HS512) /*
+                                                          * Utilizamos este método para firmar
+                                                          * nuestro token y de esta manera evitar la manipulación o
+                                                          * modificación de este
+                                                          */
+                .compact(); // Este método finaliza la construcción del token y lo convierte en una cadena
+                            // compacta
         return token;
     }
-                // Metodo para extraer un username a partir de un token 
-                // 
-    public String getUsernameFromJwtToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
 
-        return claims.getSubject();
+    // Metodo para extraer un username a partir de un token
+    public String getUsernameFromJwtToken(String token) {
+        Claims claims = Jwts.parserBuilder() // El método parser se utiliza con el fin de analizar el token
+                .setSigningKey(key)// Establece la clave de firma, que se utiliza para verificar la firma del token
+                .build()
+                .parseClaimsJws(token) // Se utiliza para verificar la firma del token, apartir del String "token"
+                .getBody();/*
+                            * Obtenemos el claims(cuerpo) ya verificado del token el cual contendrá la
+                            * información de
+                            * nombre de usuario, fecha de expiración y firma del token
+                            */
+
+        return claims.getSubject();// Devolvemos el nombre de usuario
     }
 
-                // Metodo para validar nuestro token 
+    // Metodo para validar nuestro token
     public boolean validateJwtToken(String token) {
         try {
+            // Validación del token por medio de la firma que contiene el String
+            // token(token)
+            // Si son idénticas validara el token o caso contrario saltara la excepción de
+            // abajo
             Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
