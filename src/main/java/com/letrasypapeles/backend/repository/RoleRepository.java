@@ -1,13 +1,10 @@
 package com.letrasypapeles.backend.repository;
 
-import com.letrasypapeles.backend.entity.Role;
+import com.letrasypapeles.backend.entity.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
-public interface RoleRepository extends JpaRepository<Role, String> {
-
-    Optional<Role> findByNombre(String nombre);
+public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
+    Optional<RoleEntity> findByName(String name);
 }
