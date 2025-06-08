@@ -65,7 +65,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(authz -> authz
+                .authorizeHttpRequests(authRequest -> authRequest
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/empleado").hasRole("EMPLEADO")
                         .requestMatchers("/gerente").hasRole("GERENTE")

@@ -28,14 +28,13 @@ public class UsuarioService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 cliente.getEmail(),
                 cliente.getContraseña(),
-                getAuthorities(cliente)
-        );
+                getAuthorities(cliente));
     }
 
     private Collection<GrantedAuthority> getAuthorities(Cliente cliente) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         cliente.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getNombre()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         });
         return new ArrayList<>(authorities);
     }

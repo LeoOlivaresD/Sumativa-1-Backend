@@ -1,6 +1,5 @@
 package com.letrasypapeles.backend.controller;
 
-import com.letrasypapeles.backend.entity.Role;
 import com.letrasypapeles.backend.entity.RoleEntity;
 import com.letrasypapeles.backend.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,6 @@
 package com.letrasypapeles.backend.service;
 
 import com.letrasypapeles.backend.entity.Cliente;
-import com.letrasypapeles.backend.entity.Role;
 import com.letrasypapeles.backend.entity.RoleEntity;
 import com.letrasypapeles.backend.repository.ClienteRepository;
 import com.letrasypapeles.backend.repository.RoleRepository;
@@ -35,19 +34,21 @@ public class ClienteService {
         return clienteRepository.findByEmail(email);
     }
 
+    // Registro de cliente
     public Cliente registrarCliente(Cliente cliente) {
         if (clienteRepository.existsByEmail(cliente.getEmail())) {
             throw new RuntimeException("El correo electrónico ya está registrado.");
         }
+
         cliente.setContraseña(passwordEncoder.encode(cliente.getContraseña()));
         cliente.setPuntosFidelidad(0);
 
-        // Asignar el rol "CLIENTE"
-        Role role = new Role("CLIENTE");
-        RoleEntity roleEntity = new RoleEntity(role.getNombre());
-
+        // Buscar el rol CLIENTE, o crearlo si no existe
         RoleEntity roleCliente = roleRepository.findByName("CLIENTE")
-                .orElse(roleEntity);
+                .orElseGet(() -> roleRepository.save(new RoleEntity("CLIENTE")));
+
+        // Asignar el rol al cliente
+        cliente.setRoles(Set.of(roleCliente));
 
         return clienteRepository.save(cliente);
     }

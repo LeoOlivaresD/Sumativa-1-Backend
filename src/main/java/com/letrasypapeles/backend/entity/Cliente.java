@@ -24,16 +24,12 @@ public class Cliente {
 
     @Column(unique = true)
     private String email;
-
+    @Column(name = "contrasena")
     private String contraseña;
 
     private Integer puntosFidelidad;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "clientes_roles",
-            joinColumns = @JoinColumn(name = "cliente_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_nombre")
-    )
-    private Set<Role> roles;
+    @JoinTable(name = "clientes_roles", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "role_nombre"))
+    private Set<RoleEntity> roles;
 }

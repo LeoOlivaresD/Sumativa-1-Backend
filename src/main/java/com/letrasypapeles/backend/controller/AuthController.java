@@ -51,7 +51,7 @@ public class AuthController {
         return ResponseEntity.ok(new AuthResponseDTO(token));
     }
 
-    @PostMapping("registro")
+    @PostMapping("/registro")
     public ResponseEntity<String> registro(@RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
             return ResponseEntity.badRequest().body("El usuario ya existe");
