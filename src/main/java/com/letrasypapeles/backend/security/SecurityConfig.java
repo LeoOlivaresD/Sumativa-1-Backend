@@ -55,9 +55,6 @@ public class SecurityConfig {
     }
 
     // Vamos a crear un bean el cual va a establecer una cadena de filtros de
-    // seguridad en nuestra aplicación.
-    // Y es aquí donde determinaremos los permisos segun los roles de usuarios para
-    // acceder a nuestra aplicación
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -65,7 +62,7 @@ public class SecurityConfig {
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(authEntryPoint))
                 .sessionManagement(sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                .authorizeHttpRequests(authRequest -> authRequest
+                .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/empleado").hasRole("EMPLEADO")
                         .requestMatchers("/gerente").hasRole("GERENTE")

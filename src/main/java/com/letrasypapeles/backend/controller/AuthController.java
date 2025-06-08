@@ -42,7 +42,7 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
@@ -56,17 +56,23 @@ public class AuthController {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
             return ResponseEntity.badRequest().body("El usuario ya existe");
         }
+
         UserEntity user = new UserEntity();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
-        RoleEntity role = roleRepository.findByName("EMPLEADO").get();
+        // Buscar o crear el rol EMPLEADO
+        RoleEntity role = roleRepository.findByName("EMPLEADO").orElseGet(() -> {
+            RoleEntity newRole = new RoleEntity();
+            newRole.setName("EMPLEADO");
+            return roleRepository.save(newRole);
+        });
+
         user.setRoles(Collections.singletonList(role));
 
         userRepository.save(user);
 
         return new ResponseEntity<>("Usuario registrado de forma exitosa.", HttpStatus.CREATED);
-
     }
 
 }
