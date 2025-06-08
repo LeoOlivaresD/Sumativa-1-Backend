@@ -1,14 +1,11 @@
 package com.letrasypapeles.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+import lombok.Data;
 
 @Entity
 @Table(name = "roles")
+@Data
 public class RoleEntity {
     public RoleEntity(String string) {
         // TODO Auto-generated constructor stub
