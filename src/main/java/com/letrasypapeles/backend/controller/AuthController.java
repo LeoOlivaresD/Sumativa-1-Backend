@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Collections;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/auth/")
 public class AuthController {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
@@ -42,8 +42,8 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    // Prueba registro
-    @PostMapping("/registro")
+    // Prueba registro usuario
+    @PostMapping("registro")
     public ResponseEntity<String> registro(@RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
             return ResponseEntity.badRequest().body("El usuario ya existe");
@@ -68,7 +68,7 @@ public class AuthController {
     }
 
     // Prueba login
-    @PostMapping("/login")
+    @PostMapping("login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
