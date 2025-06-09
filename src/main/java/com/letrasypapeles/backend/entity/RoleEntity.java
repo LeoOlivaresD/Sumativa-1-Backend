@@ -1,24 +1,18 @@
 package com.letrasypapeles.backend.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 
 @Entity
 @Table(name = "roles")
-@Data
 public class RoleEntity {
-    public RoleEntity(String string) {
-        // TODO Auto-generated constructor stub
-    }
-
-    public RoleEntity() {
-        // TODO Auto-generated constructor stub
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_role")
-    private Long idRole;
+    private Long id;
     private String name;
 
 }
