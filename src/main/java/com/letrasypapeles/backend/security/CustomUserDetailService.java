@@ -24,6 +24,7 @@ public class CustomUserDetailService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    // Método para traernos un usuario con todos sus datos por medio de sus username
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username)
@@ -35,6 +36,7 @@ public class CustomUserDetailService implements UserDetailsService {
                 getAuthorities(user));
     }
 
+    // Método para traernos una lista de autoridades por medio de una lista de roles
     private Collection<GrantedAuthority> getAuthorities(UserEntity user) {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(role -> {

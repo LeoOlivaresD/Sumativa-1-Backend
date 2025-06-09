@@ -26,6 +26,10 @@ public class SecurityConfig {
         this.authEntryPoint = authEntryPoint;
     }
 
+    // Vamos a crear un bean el cual va a establecer una cadena de filtros de
+    // seguridad en nuestra aplicación.
+    // Y es aquí donde determinaremos los permisos segun los roles de usuarios para
+    // acceder a nuestra aplicación
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -47,17 +51,22 @@ public class SecurityConfig {
 
     }
 
+    // Este bean va a encargarse de verificar la información de los usuarios que se
+    // loguearán en nuestra apis
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    // Con este bean nos encargaremos de encriptar todas nuestras contraseñas
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Este bean incorporará el filtro de seguridad de json web token que creamos en
+    // nuestra clase anterior
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();

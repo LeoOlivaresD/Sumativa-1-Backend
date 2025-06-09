@@ -62,9 +62,9 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         // Buscar o crear el rol EMPLEADO
-        RoleEntity role = roleRepository.findByName("GERENTE").orElseGet(() -> {
+        RoleEntity role = roleRepository.findByName("EMPLEADO").orElseGet(() -> {
             RoleEntity newRole = new RoleEntity();
-            newRole.setName("GERENTE");
+            newRole.setName("EMPLEADO");
             return roleRepository.save(newRole);
         });
 

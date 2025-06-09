@@ -14,6 +14,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/*La función de esta clase será validar la información del token y si esto es exitoso,
+establecerá la autenticación de un usuario en la solicitud o en el contexto de seguridad de nuestra aplicación*/
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -45,6 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /*
+     * Con el siguiente método extraeremos el token JWT de la cabecera de nuestra
+     * petición Http("Authorization")
+     * luego lo validaremos y finalmente se retornará
+     */
     private String getJWTFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
