@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Component
 public class JwtGenerator {
-    private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private static final Key key = Keys.hmacShaKeyFor(SecurityConstants.JWT_SECRET.getBytes());
 
     // Metodo para crear un token por medio de la autenticacion
     public String generateToken(Authentication authentication) {

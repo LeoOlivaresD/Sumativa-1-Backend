@@ -18,15 +18,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 // momento de arrancar la aplicación
 @EnableWebSecurity
 // Indicamos que se activa la seguridad web en nuestra aplicación y además esta
-// será una clase la cual contendrá toda la configuración referente a la
-// seguridad
+// será una clase la cual contendrá toda la configuración referente a
+// laseguridad
 public class SecurityConfig {
 
-    private JwtAuthEntryPoint authEntryPoint;
+    private final JwtAuthEntryPoint authEntryPoint;
+    private final CustomUserDetailService userDetailService;
 
     @Autowired
-    public SecurityConfig(JwtAuthEntryPoint authEntryPoint) {
+    public SecurityConfig(JwtAuthEntryPoint authEntryPoint, CustomUserDetailService userDetailService) {
         this.authEntryPoint = authEntryPoint;
+        this.userDetailService = userDetailService;
     }
 
     // Este bean va a encargarse de verificar la información de los usuarios que se

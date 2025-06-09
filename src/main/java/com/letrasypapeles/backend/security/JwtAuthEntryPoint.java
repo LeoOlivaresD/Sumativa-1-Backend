@@ -15,6 +15,8 @@ public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
+        System.out.println("Acceso denegado: " + authException.getMessage());
+        System.out.println("URI de solicitud bloqueada: " + request.getRequestURI());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
     }
 }

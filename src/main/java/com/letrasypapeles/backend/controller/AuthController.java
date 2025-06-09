@@ -8,6 +8,9 @@ import com.letrasypapeles.backend.entity.UserEntity;
 import com.letrasypapeles.backend.repository.RoleRepository;
 import com.letrasypapeles.backend.repository.UserRepository;
 import com.letrasypapeles.backend.security.JwtGenerator;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,11 +29,11 @@ import java.util.Collections;
 @RestController
 @RequestMapping("/api/auth/")
 public class AuthController {
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtGenerator jwtGenerator;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtGenerator jwtGenerator;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
@@ -42,7 +45,7 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    // Prueba registro usuario
+    // Prueba registro usuario (aprobado)
     @PostMapping("registro")
     public ResponseEntity<String> registro(@RequestBody RegisterDTO registerDTO) {
         if (userRepository.existsByUsername(registerDTO.getUsername())) {
@@ -69,12 +72,26 @@ public class AuthController {
 
     // Prueba login
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+        try {
+            System.out.println("Autenticando usuario: " + loginDTO.getUsername());
+            System.out.println("Contraseña recibida (cruda): " + loginDTO.getPassword());
+
+            // Verifica si el usuario existe en la BD (debug)
+            userRepository.findByUsername(loginDTO.getUsername())
+                    .ifPresent(user -> System.out.println("Usuario en BD: " + user.getUsername()
+                            + ", Contraseña (encriptada): " + user.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
+            System.out.println("Autenticación exitosa para: " + authentication.getName());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            String token = jwtGenerator.generateToken(authentication);
+            return ResponseEntity.ok(new AuthResponseDTO(token));
+        } catch (Exception e) {
+            System.out.println("Error en autenticación: " + e.getMessage()); // Debugging
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Error: Credenciales inválidas");
+        }
     }
 
 }

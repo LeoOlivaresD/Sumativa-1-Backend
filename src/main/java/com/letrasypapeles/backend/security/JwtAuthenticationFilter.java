@@ -35,6 +35,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        System.out.println("Ejecutando JwtAuthenticationFilter...");
+        // 🔹 Excluir la validación del token para el endpoint de login
+        if (request.getRequestURI().equals("/api/auth/login")) {
+            System.out.println("Excluyendo autenticación JWT para el login...");
+            filterChain.doFilter(request, response);
+            return;
+        }
         String path = request.getRequestURI();
 
         // Excluir rutas públicas (sin necesidad de token)
@@ -42,11 +49,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return; // Salir del filtro, no validar token
         }
+
         String token = obtenerTokenDeSolicitud(request);
+        System.out.println("Token recibido: " + token);
         if (StringUtils.hasText(token) && jwtGenerador.validateJwtToken(token)) {
             String username = jwtGenerador.getUsernameFromJwtToken(token);
-
+            System.out.println("Autenticando usuario: " + username);
             UserDetails userDetails = customUsersDetailsService.loadUserByUsername(username);
+            System.out.println("Roles del usuario: " + userDetails.getAuthorities());
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                     userDetails, null,
                     userDetails.getAuthorities());
