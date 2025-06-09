@@ -10,6 +10,14 @@ import lombok.Setter;
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
+    public RoleEntity(String string) {
+        // TODO Auto-generated constructor stub
+    }
+
+    public RoleEntity() {
+        // TODO Auto-generated constructor stub
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
