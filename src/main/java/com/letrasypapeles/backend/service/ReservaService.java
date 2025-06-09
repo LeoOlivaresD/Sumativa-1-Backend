@@ -31,7 +31,7 @@ public class ReservaService {
     }
 
     public List<Reserva> obtenerPorClienteId(Long clienteId) {
-        return reservaRepository.findByClienteId(clienteId);
+        return reservaRepository.findByClienteIdCliente(clienteId);
     }
 
     public List<Reserva> obtenerPorProductoId(Long productoId) {

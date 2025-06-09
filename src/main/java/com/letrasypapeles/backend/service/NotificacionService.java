@@ -32,7 +32,7 @@ public class NotificacionService {
     }
 
     public List<Notificacion> obtenerPorClienteId(Long clienteId) {
-        return notificacionRepository.findByClienteId(clienteId);
+        return notificacionRepository.findByClienteIdCliente(clienteId);
     }
 
     public List<Notificacion> obtenerPorFechaEntre(LocalDateTime inicio, LocalDateTime fin) {

@@ -31,7 +31,7 @@ public class PedidoService {
     }
 
     public List<Pedido> obtenerPorClienteId(Long clienteId) {
-        return pedidoRepository.findByClienteId(clienteId);
+        return pedidoRepository.findByClienteIdCliente(clienteId);
     }
 
     public List<Pedido> obtenerPorEstado(String estado) {
