@@ -48,7 +48,7 @@ public class ClienteController {
     public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
         return clienteService.obtenerPorId(id)
                 .map(c -> {
-                    cliente.setId(id);
+                    cliente.setIdCliente(id);
                     Cliente clienteActualizado = clienteService.actualizarCliente(cliente);
                     clienteActualizado.setContraseña(null);
                     return ResponseEntity.ok(clienteActualizado);

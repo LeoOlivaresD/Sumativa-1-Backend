@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface NotificacionRepository extends JpaRepository<Notificacion, Long> {
 
-    List<Notificacion> findByClienteId(Long clienteId);
+    List<Notificacion> findByClienteIdCliente(Long idCliente);
 
     List<Notificacion> findByFechaBetween(LocalDateTime inicio, LocalDateTime fin);
 }

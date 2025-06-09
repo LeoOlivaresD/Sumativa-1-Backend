@@ -18,7 +18,8 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_cliente")
+    private Long idCliente;
 
     private String nombre;
 
@@ -30,6 +31,6 @@ public class Cliente {
     private Integer puntosFidelidad;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "clientes_roles", joinColumns = @JoinColumn(name = "cliente_id"), inverseJoinColumns = @JoinColumn(name = "role_nombre"))
+    @JoinTable(name = "clientes_roles", joinColumns = @JoinColumn(name = "cliente_id", referencedColumnName = "id_cliente"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id_role"))
     private Set<RoleEntity> roles;
 }
