@@ -8,6 +8,12 @@ class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
+		 // Esta prueba valida que el contexto de Spring se levanta sin errores.
 	}
+	
+	@Test
+    void mainMethodRuns() {
+        BackendApplication.main(new String[]{});
+    }
 
 }
