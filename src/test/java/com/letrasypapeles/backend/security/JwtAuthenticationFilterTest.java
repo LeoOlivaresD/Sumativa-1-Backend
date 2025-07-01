@@ -84,4 +84,53 @@ class JwtAuthenticationFilterTest {
         assertNull(SecurityContextHolder.getContext().getAuthentication());
         verify(filterChain).doFilter(request, response);
     }
+
+    @Test
+    void testDoFilterInternal_TokenIsEmpty() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain filterChain = mock(FilterChain.class);
+
+        when(request.getRequestURI()).thenReturn("/api/secure/data");
+        when(request.getHeader("Authorization")).thenReturn(""); // token vacío
+
+        filter.doFilterInternal(request, response, filterChain);
+
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+        verify(filterChain).doFilter(request, response);
+    }
+
+    @Test
+    void testDoFilterInternal_TokenWithoutBearerPrefix() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain filterChain = mock(FilterChain.class);
+
+        when(request.getRequestURI()).thenReturn("/api/secure/data");
+        when(request.getHeader("Authorization")).thenReturn("InvalidTokenFormat");
+
+        filter.doFilterInternal(request, response, filterChain);
+
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+        verify(filterChain).doFilter(request, response);
+    }
+
+
+    @Test
+    void testDoFilterInternal_InvalidToken() throws Exception {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        FilterChain filterChain = mock(FilterChain.class);
+
+        String token = "Bearer invalid.token";
+        when(request.getRequestURI()).thenReturn("/api/secure/data");
+        when(request.getHeader("Authorization")).thenReturn(token);
+        when(jwtGenerator.validateJwtToken("invalid.token")).thenReturn(false); // token inválido
+
+        filter.doFilterInternal(request, response, filterChain);
+
+        assertNull(SecurityContextHolder.getContext().getAuthentication());
+        verify(filterChain).doFilter(request, response);
+    }
+
 }
