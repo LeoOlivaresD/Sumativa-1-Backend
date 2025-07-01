@@ -1,6 +1,10 @@
 package com.letrasypapeles.backend.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +14,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
-    public RoleEntity(String string) {
+    public RoleEntity(String name) {
         // TODO Auto-generated constructor stub
+        this.name = name; // nuevo
     }
 
     public RoleEntity() {
