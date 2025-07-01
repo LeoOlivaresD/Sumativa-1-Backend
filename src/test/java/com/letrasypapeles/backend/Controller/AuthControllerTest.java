@@ -1,6 +1,24 @@
-package com.letrasypapeles.backend.TestController;
+package com.letrasypapeles.backend.Controller;
 
 
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.letrasypapeles.backend.controller.AuthController;
 import com.letrasypapeles.backend.dto.AuthResponseDTO;
 import com.letrasypapeles.backend.dto.LoginDTO;
 import com.letrasypapeles.backend.dto.RegisterDTO;
@@ -9,20 +27,6 @@ import com.letrasypapeles.backend.entity.UserEntity;
 import com.letrasypapeles.backend.repository.RoleRepository;
 import com.letrasypapeles.backend.repository.UserRepository;
 import com.letrasypapeles.backend.security.JwtGenerator;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class AuthControllerTest {
 
