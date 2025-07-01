@@ -4,6 +4,11 @@ Este proyecto fue desarrollado en **Java** utilizando **Spring Boot** y **Spring
 Se implementaron pruebas unitarias para alcanzar un **100% de cobertura de ramas (BRANCH)** utilizando **JaCoCo**.  
 El resultado se puede apreciar en la siguiente imagen:
 
+
+<p align="center">
+  <img src="https://i.postimg.cc/3NmTzX7b/Captura-de-pantalla-283.png" alt="Cobertura JaCoCo" />
+</p>
+
 <p align="center">
   <img src="https://i.postimg.cc/WtLyZCB5/Captura-de-pantalla-280.png" alt="Cobertura JaCoCo" />
 </p>
