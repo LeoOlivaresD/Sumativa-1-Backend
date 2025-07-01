@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import com.letrasypapeles.backend.entity.RoleEntity;
 
 class RoleEntityTest {
-
+    //correcion
     @Test
     void testConstructorVacio() {
         RoleEntity role = new RoleEntity();
