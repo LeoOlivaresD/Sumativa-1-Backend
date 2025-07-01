@@ -1,19 +1,21 @@
 package com.letrasypapeles.backend.security;
 
-import com.letrasypapeles.backend.entity.RoleEntity;
-import com.letrasypapeles.backend.entity.UserEntity;
-import com.letrasypapeles.backend.repository.UserRepository;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import com.letrasypapeles.backend.entity.RoleEntity;
+import com.letrasypapeles.backend.entity.UserEntity;
+import com.letrasypapeles.backend.repository.UserRepository;
 
 class CustomUserDetailServiceTest {
 
@@ -27,31 +29,27 @@ class CustomUserDetailServiceTest {
     }
 
     @Test
-    void testLoadUserByUsername_UsuarioExistente() {
+    void testLoadUserByUsername_UsuarioExiste() {
         UserEntity user = new UserEntity();
-        user.setUsername("admin");
-        user.setPassword("securepass");
-        RoleEntity role = new RoleEntity();
-        role.setName("GERENTE");
-        user.setRoles(List.of(role));
+        user.setUsername("juan");
+        user.setPassword("clave");
+        user.setRoles(List.of(new RoleEntity("ADMIN")));
 
+        when(userRepository.findByUsername("juan")).thenReturn(Optional.of(user));
 
-        when(userRepository.findByUsername("admin")).thenReturn(Optional.of(user));
+        UserDetails result = userDetailService.loadUserByUsername("juan");
 
-        UserDetails userDetails = userDetailService.loadUserByUsername("admin");
-
-        assertEquals("admin", userDetails.getUsername());
-        assertEquals("securepass", userDetails.getPassword());
-        assertTrue(userDetails.getAuthorities().stream()
-                .anyMatch(auth -> auth.getAuthority().equals("ROLE_GERENTE")));
+        assertEquals("juan", result.getUsername());
+        assertEquals("clave", result.getPassword());
+        assertTrue(result.getAuthorities().stream()
+                .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN")));
     }
 
     @Test
-    void testLoadUserByUsername_UsuarioNoExistente() {
-        when(userRepository.findByUsername("inexistente")).thenReturn(Optional.empty());
+    void testLoadUserByUsername_UsuarioNoExiste() {
+        when(userRepository.findByUsername("noexiste")).thenReturn(Optional.empty());
 
-        assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailService.loadUserByUsername("inexistente");
-        });
+        assertThrows(UsernameNotFoundException.class, () ->
+                userDetailService.loadUserByUsername("noexiste"));
     }
 }
