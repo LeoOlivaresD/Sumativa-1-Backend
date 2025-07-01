@@ -6,21 +6,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-@Getter
-@Setter
 
 @Entity
 @Table(name = "roles")
+@Getter
+@Setter
+@NoArgsConstructor
 public class RoleEntity {
     public RoleEntity(String name) {
-        // TODO Auto-generated constructor stub
         this.name = name; // nuevo
-    }
-
-    public RoleEntity() {
-        // TODO Auto-generated constructor stub
     }
 
     @Id
