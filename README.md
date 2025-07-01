@@ -6,18 +6,21 @@ El resultado se puede apreciar en la siguiente imagen:
 
 <p align="center">
   <img src="https://i.ibb.co/r2rcKm7D/Captura-de-pantalla-280.png" alt="Imagen Coverage 100%" style="max-width: 100%; height: auto;" />
-  <br/>
+</p>
+
+<p align="center">
   <em>✅ Cobertura de pruebas al 100% con JaCoCo</em>
 </p>
 
----
 
 ## 🚀 Cómo levantar el proyecto con Docker
 
 ```bash
 # 1. Construir la imagen del backend
-docker build -t letrasypapeles-backend .
+docker build -t sumbackend2 .
 
 # 2. Ejecutar el contenedor junto a la base de datos
-docker-compose up -d
+docker run -d --name mysql-letras -p 3306:3306
+
+# 3. Ejecutar proyecto desde IDE
 
