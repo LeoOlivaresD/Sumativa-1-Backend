@@ -21,8 +21,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtGenerator jwtGenerator;
-    @Autowired
-    private CustomUserDetailService customUserDetailsService;
+    @Autowired CustomUserDetailService customUserDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -35,8 +34,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return; // Salir del filtro, no validar token
         }
         String token = getJWTFromRequest(request);
-        if (StringUtils.hasText(token) && jwtGenerator.validateJwtToken(token)) {
-            String username = jwtGenerator.getUsernameFromJwtToken(token);
+        if (StringUtils.hasText(token) && getJwtGenerator().validateJwtToken(token)) {
+            String username = getJwtGenerator().getUsernameFromJwtToken(token);
 
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -46,6 +45,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(request, response);
+    }
+
+    public JwtGenerator getJwtGenerator() {
+        return jwtGenerator;
+        
+    }
+
+    public void setJwtGenerator(JwtGenerator jwtGenerator) {
+        this.jwtGenerator = jwtGenerator;
+        
     }
 
     /*
