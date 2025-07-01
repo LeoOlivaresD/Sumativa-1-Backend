@@ -1,4 +1,4 @@
-package com.letrasypapeles.backend.Entity;
+package com.letrasypapeles.backend.entity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

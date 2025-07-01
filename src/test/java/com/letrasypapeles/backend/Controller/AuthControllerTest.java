@@ -1,4 +1,4 @@
-package com.letrasypapeles.backend.Controller;
+package com.letrasypapeles.backend.controller;
 
 
 import java.util.Optional;
