@@ -86,6 +86,7 @@
             <scope>runtime</scope>
         </dependency>
 
+<<<<<<< HEAD
     <!-- SpringDoc OpenAPI para documentación de microservicios -->
         <dependency>
             <groupId>org.springdoc</groupId>
@@ -93,6 +94,16 @@
             <version>2.5.0</version>
         </dependency>
 
+=======
+        <!-- Dependencia para documentar automáticamente con OAS -->
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+        
+>>>>>>> 08ab24993ade135aece666d844a141275009dcf0
     </dependencies>
 
     <build>
