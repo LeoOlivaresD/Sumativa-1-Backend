@@ -18,7 +18,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.letrasypapeles.backend.controller.AuthController;
 import com.letrasypapeles.backend.dto.AuthResponseDTO;
 import com.letrasypapeles.backend.dto.LoginDTO;
 import com.letrasypapeles.backend.dto.RegisterDTO;
