@@ -51,85 +51,85 @@ class ClienteControllerTest {
     }
 
     @Test
-    void testCliente() throws Exception {
-        mockMvc.perform(get("/cliente"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Eres el cliente"));
-    }
+void testCliente() throws Exception {
+    mockMvc.perform(get("/api/clientes/perfil"))
+            .andExpect(status().isOk())
+            .andExpect(content().string("Eres el cliente"));
+}
 
-    @Test
-    void testObtenerTodos() throws Exception {
-        when(clienteService.obtenerTodos()).thenReturn(List.of(cliente));
+@Test
+void testObtenerTodos() throws Exception {
+    when(clienteService.obtenerTodos()).thenReturn(List.of(cliente));
 
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].nombre").value("Juan"));
-    }
+    mockMvc.perform(get("/api/clientes"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].nombre").value("Juan"));
+}
 
-    @Test
-    void testObtenerPorIdEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
+@Test
+void testObtenerPorIdEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
 
-        mockMvc.perform(get("/1"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("juan@mail.com"));
-    }
+    mockMvc.perform(get("/api/clientes/1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.email").value("juan@mail.com"));
+}
 
-    @Test
-    void testObtenerPorIdNoEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
+@Test
+void testObtenerPorIdNoEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(get("/99"))
-                .andExpect(status().isNotFound());
-    }
+    mockMvc.perform(get("/api/clientes/99"))
+            .andExpect(status().isNotFound());
+}
 
-    @Test
-    void testRegistrarCliente() throws Exception {
-        when(clienteService.registrarCliente(any())).thenReturn(cliente);
+@Test
+void testRegistrarCliente() throws Exception {
+    when(clienteService.registrarCliente(any())).thenReturn(cliente);
 
-        mockMvc.perform(post("/registro")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(cliente)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nombre").value("Juan"));
-    }
+    mockMvc.perform(post("/api/clientes/registro")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(cliente)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.nombre").value("Juan"));
+}
 
-    @Test
-    void testActualizarClienteEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
-        when(clienteService.actualizarCliente(any())).thenReturn(cliente);
+@Test
+void testActualizarClienteEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
+    when(clienteService.actualizarCliente(any())).thenReturn(cliente);
 
-        mockMvc.perform(put("/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(cliente)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.email").value("juan@mail.com"));
-    }
+    mockMvc.perform(put("/api/clientes/1")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(cliente)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.email").value("juan@mail.com"));
+}
 
-    @Test
-    void testActualizarClienteNoEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
+@Test
+void testActualizarClienteNoEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(put("/99")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(cliente)))
-                .andExpect(status().isNotFound());
-    }
+    mockMvc.perform(put("/api/clientes/99")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(cliente)))
+            .andExpect(status().isNotFound());
+}
 
-    @Test
-    void testEliminarClienteEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
-        Mockito.doNothing().when(clienteService).eliminar(1L);
+@Test
+void testEliminarClienteEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(1L)).thenReturn(Optional.of(cliente));
+    Mockito.doNothing().when(clienteService).eliminar(1L);
 
-        mockMvc.perform(delete("/1"))
-                .andExpect(status().isOk());
-    }
+    mockMvc.perform(delete("/api/clientes/1"))
+            .andExpect(status().isOk());
+}
 
-    @Test
-    void testEliminarClienteNoEncontrado() throws Exception {
-        when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
+@Test
+void testEliminarClienteNoEncontrado() throws Exception {
+    when(clienteService.obtenerPorId(99L)).thenReturn(Optional.empty());
 
-        mockMvc.perform(delete("/99"))
-                .andExpect(status().isNotFound());
-    }
+    mockMvc.perform(delete("/api/clientes/99"))
+            .andExpect(status().isNotFound());
+}
 }
