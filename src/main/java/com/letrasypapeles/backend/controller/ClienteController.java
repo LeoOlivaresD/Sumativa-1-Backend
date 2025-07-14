@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/clientes") // Se agrega esta linea con rutas claras, RESTful y sin ambiguedades
 public class ClienteController {
 
     @Autowired
@@ -25,7 +26,8 @@ public class ClienteController {
     )
     @ApiResponse(responseCode = "200", description = "Acceso autorizado como CLIENTE")
     @PreAuthorize("hasRole('CLIENTE')")
-    @GetMapping("/cliente")
+    @GetMapping("/perfil") // Esto quedaría en GET /api/clientes/perfil mucho mas claro y consistente
+    //@GetMapping("/cliente")
     public ResponseEntity<String> cliente() {
         return ResponseEntity.ok("Eres el cliente");
     }
