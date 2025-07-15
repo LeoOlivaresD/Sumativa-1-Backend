@@ -1,16 +1,21 @@
 package com.letrasypapeles.backend.controller;
 
 import com.letrasypapeles.backend.entity.Producto;
+import com.letrasypapeles.backend.hateoas.ProductoModelAssembler;
 import com.letrasypapeles.backend.service.ProductoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/api/productos")
@@ -19,86 +24,73 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @Operation(
-        summary = "Obtener todos los productos",
-        description = "Devuelve una lista con todos los productos registrados en el sistema"
-    )
+    @Autowired
+    private ProductoModelAssembler assembler;
+
+    @Operation(summary = "Obtener todos los productos", description = "Devuelve una lista con todos los productos registrados")
     @ApiResponse(responseCode = "200", description = "Lista de productos obtenida exitosamente")
     @GetMapping
-    public ResponseEntity<List<Producto>> obtenerTodos() {
-        List<Producto> productos = productoService.obtenerTodos();
-        return ResponseEntity.ok(productos);
+    public ResponseEntity<CollectionModel<EntityModel<Producto>>> obtenerTodos() {
+        List<EntityModel<Producto>> productos = productoService.obtenerTodos()
+                .stream()
+                .map(assembler::toModel)
+                .toList();
+
+        return ResponseEntity.ok(
+                CollectionModel.of(productos,
+                        linkTo(methodOn(ProductoController.class).obtenerTodos()).withSelfRel())
+        );
     }
 
-    @Operation(
-        summary = "Obtener producto por ID",
-        description = "Devuelve los datos de un producto específico según su ID"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Producto encontrado"),
-        @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    @Operation(summary = "Obtener producto por ID", description = "Devuelve un producto específico por ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Producto encontrado"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerPorId(
-        @Parameter(description = "ID del producto a buscar", required = true)
-        @PathVariable Long id) {
+    public ResponseEntity<EntityModel<Producto>> obtenerPorId(
+            @Parameter(description = "ID del producto", required = true)
+            @PathVariable Long id) {
 
         return productoService.obtenerPorId(id)
+                .map(assembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(
-        summary = "Crear un nuevo producto",
-        description = "Registra un nuevo producto en el sistema"
-    )
-    @ApiResponse(responseCode = "200", description = "Producto creado exitosamente")
+    @Operation(summary = "Crear producto", description = "Registra un nuevo producto")
+    @ApiResponse(responseCode = "200", description = "Producto creado")
     @PostMapping
     public ResponseEntity<Producto> crearProducto(
-        @Parameter(description = "Datos del producto a registrar", required = true)
-        @RequestBody Producto producto) {
-
-        Producto nuevoProducto = productoService.guardar(producto);
-        return ResponseEntity.ok(nuevoProducto);
+            @Parameter(description = "Datos del producto") @RequestBody Producto producto) {
+        Producto nuevo = productoService.guardar(producto);
+        return ResponseEntity.ok(nuevo);
     }
 
-    @Operation(
-        summary = "Actualizar un producto existente",
-        description = "Modifica los datos de un producto según su ID"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Producto actualizado exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    @Operation(summary = "Actualizar producto", description = "Actualiza un producto existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Producto actualizado"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
     @PutMapping("/{id}")
     public ResponseEntity<Producto> actualizarProducto(
-        @Parameter(description = "ID del producto a actualizar", required = true)
-        @PathVariable Long id,
-        @Parameter(description = "Datos actualizados del producto", required = true)
-        @RequestBody Producto producto) {
-
+            @PathVariable Long id,
+            @RequestBody Producto producto) {
         return productoService.obtenerPorId(id)
                 .map(p -> {
                     producto.setId(id);
-                    Producto productoActualizado = productoService.guardar(producto);
-                    return ResponseEntity.ok(productoActualizado);
+                    return ResponseEntity.ok(productoService.guardar(producto));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @Operation(
-        summary = "Eliminar un producto",
-        description = "Elimina un producto del sistema según su ID"
-    )
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Producto eliminado exitosamente"),
-        @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    @Operation(summary = "Eliminar producto", description = "Elimina un producto por ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Producto eliminado"),
+            @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarProducto(
-        @Parameter(description = "ID del producto a eliminar", required = true)
-        @PathVariable Long id) {
-
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
         return productoService.obtenerPorId(id)
                 .map(p -> {
                     productoService.eliminar(id);
