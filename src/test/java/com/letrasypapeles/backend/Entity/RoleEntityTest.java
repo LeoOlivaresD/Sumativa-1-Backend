@@ -42,4 +42,24 @@ class RoleEntityTest {
 
         assertThat(role.toString()).contains("id=99", "name=INVITADO");
     }
+
+    @Test
+    void testEqualsWithDifferentScenarios() {
+        RoleEntity r1 = new RoleEntity("ADMIN");
+        r1.setId(1L);
+
+        RoleEntity r2 = new RoleEntity("USER");
+        r2.setId(2L);
+
+        String otroObjeto = "no es rol";
+
+        assertThat(r1).isNotEqualTo(r2);      // diferentes campos
+        assertThat(r1).isNotEqualTo(null);    // comparación con null
+        assertThat(r1).isNotEqualTo(otroObjeto); // distinto tipo
+        assertThat(r1.equals(r1)).isTrue();   // igualdad con sí mismo
+    }
+
+
+
+
 }

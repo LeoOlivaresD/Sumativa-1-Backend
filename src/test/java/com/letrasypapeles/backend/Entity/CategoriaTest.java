@@ -49,4 +49,28 @@ class CategoriaTest {
         Categoria categoria = new Categoria(1L, "Tecnología");
         assertThat(categoria.toString()).contains("id=1", "nombre=Tecnología");
     }
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Categoria c1 = Categoria.builder().id(1L).nombre("X").build();
+        Categoria c2 = Categoria.builder().id(2L).nombre("Y").build();
+        Categoria c3 = null;
+        String otroObjeto = "no es categoria";
+
+        assertThat(c1).isNotEqualTo(c2);         // distintos
+        assertThat(c1).isNotEqualTo(c3);         // null
+        assertThat(c1).isNotEqualTo(otroObjeto); // tipo diferente
+        assertThat(c1.equals(c1)).isTrue();      // sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Categoria categoria = Categoria.builder().id(5L).nombre("Stable").build();
+        assertThat(categoria.hashCode()).isEqualTo(categoria.hashCode());
+    }
+
+
+
+
 }

@@ -64,4 +64,32 @@ class ReservaTest {
         Reserva reserva = Reserva.builder().id(6L).estado("TERMINADA").build();
         assertThat(reserva.toString()).contains("id=6", "estado=TERMINADA");
     }
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Reserva r1 = Reserva.builder().id(1L).estado("RESERVADA").build();
+        Reserva r2 = Reserva.builder().id(2L).estado("CONFIRMADA").build();
+        Reserva r3 = null;
+        String otroObjeto = "reserva";
+
+        assertThat(r1).isNotEqualTo(r2);         // distintos valores
+        assertThat(r1).isNotEqualTo(r3);         // null
+        assertThat(r1).isNotEqualTo(otroObjeto); // otro tipo
+        assertThat(r1.equals(r1)).isTrue();      // sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Reserva reserva = Reserva.builder()
+                .id(7L)
+                .estado("EN ESPERA")
+                .build();
+
+        assertThat(reserva.hashCode()).isEqualTo(reserva.hashCode());
+    }
+
+
+
+
 }

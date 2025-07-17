@@ -57,4 +57,34 @@ class ProveedorTest {
 
         assertThat(proveedor.toString()).contains("id=4", "nombre=ProveedorTest", "contacto=test@test.com");
     }
+
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Proveedor p1 = Proveedor.builder().id(1L).nombre("ProvA").build();
+        Proveedor p2 = Proveedor.builder().id(2L).nombre("ProvB").build();
+        Proveedor p3 = null;
+        String otroTipo = "no es proveedor";
+
+        assertThat(p1).isNotEqualTo(p2);         // distintos valores
+        assertThat(p1).isNotEqualTo(p3);         // null
+        assertThat(p1).isNotEqualTo(otroTipo);   // otro tipo
+        assertThat(p1.equals(p1)).isTrue();      // sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Proveedor proveedor = Proveedor.builder()
+                .id(7L)
+                .nombre("Estable")
+                .contacto("estable@test.com")
+                .build();
+
+        assertThat(proveedor.hashCode()).isEqualTo(proveedor.hashCode());
+    }
+
+
+
+
 }

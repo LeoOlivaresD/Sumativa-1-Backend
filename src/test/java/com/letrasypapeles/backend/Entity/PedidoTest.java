@@ -67,5 +67,36 @@ class PedidoTest {
         Pedido pedido = Pedido.builder().id(5L).estado("PAGO").build();
         assertThat(pedido.toString()).contains("id=5", "estado=PAGO");
     }
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Pedido p1 = Pedido.builder().id(1L).estado("RESERVADO").build();
+        Pedido p2 = Pedido.builder().id(2L).estado("CONFIRMADO").build();
+        Pedido p3 = null;
+        String otroObjeto = "pedido";
+
+        assertThat(p1).isNotEqualTo(p2);         // objetos distintos
+        assertThat(p1).isNotEqualTo(p3);         // null
+        assertThat(p1).isNotEqualTo(otroObjeto); // tipo diferente
+        assertThat(p1.equals(p1)).isTrue();      // sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Pedido pedido = Pedido.builder()
+                .id(6L)
+                .estado("PROCESADO")
+                .build();
+
+        int hash1 = pedido.hashCode();
+        int hash2 = pedido.hashCode();
+
+        assertThat(hash1).isEqualTo(hash2);
+    }
+
+
+
+
 }
 

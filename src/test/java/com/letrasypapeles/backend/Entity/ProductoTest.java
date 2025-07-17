@@ -63,4 +63,32 @@ public class ProductoTest {
         assertThat(p1.hashCode()).isEqualTo(p2.hashCode());
         assertThat(p1.toString()).contains("nombre=Lápiz");
     }
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Producto p1 = Producto.builder().id(1L).nombre("X").build();
+        Producto p2 = Producto.builder().id(2L).nombre("Y").build();
+        Producto p3 = null;
+        String otroObjeto = "no es producto";
+
+        assertThat(p1).isNotEqualTo(p2);         // objetos distintos
+        assertThat(p1).isNotEqualTo(p3);         // comparado con null
+        assertThat(p1).isNotEqualTo(otroObjeto); // distinto tipo
+        assertThat(p1.equals(p1)).isTrue();      // igual a sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Producto producto = Producto.builder()
+                .id(3L)
+                .nombre("Regla")
+                .build();
+
+        int hash1 = producto.hashCode();
+        int hash2 = producto.hashCode();
+
+        assertThat(hash1).isEqualTo(hash2); // mismo objeto, hash consistente
+    }
+
+
 }

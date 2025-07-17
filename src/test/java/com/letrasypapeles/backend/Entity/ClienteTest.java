@@ -78,4 +78,28 @@ class ClienteTest {
 
         assertThat(cliente.toString()).contains("idCliente=5", "nombre=Pedro");
     }
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Cliente cliente1 = Cliente.builder().idCliente(1L).email("a@a.com").build();
+        Cliente cliente2 = Cliente.builder().idCliente(2L).email("b@b.com").build();
+        Cliente cliente3 = null;
+        String distintoTipo = "no es cliente";
+
+        assertThat(cliente1).isNotEqualTo(cliente2);        // diferentes valores
+        assertThat(cliente1).isNotEqualTo(cliente3);        // null
+        assertThat(cliente1).isNotEqualTo(distintoTipo);    // otro tipo
+        assertThat(cliente1.equals(cliente1)).isTrue();     // igualdad a sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Cliente cliente = Cliente.builder().idCliente(1L).email("test@test.com").build();
+        int hash1 = cliente.hashCode();
+        int hash2 = cliente.hashCode();
+
+        assertThat(hash1).isEqualTo(hash2); // misma instancia, mismo hash
+    }
+
+
 }

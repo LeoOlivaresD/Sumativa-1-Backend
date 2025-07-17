@@ -68,4 +68,36 @@ class InventarioTest {
         assertThat(i1).isEqualTo(i2);
         assertThat(i1.hashCode()).isEqualTo(i2.hashCode());
     }
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Inventario i1 = Inventario.builder().id(1L).cantidad(10).build();
+        Inventario i2 = Inventario.builder().id(2L).cantidad(10).build();
+        Inventario i3 = null;
+        String otroTipo = "inventario";
+
+        assertThat(i1).isNotEqualTo(i2);         // diferentes valores
+        assertThat(i1).isNotEqualTo(i3);         // null
+        assertThat(i1).isNotEqualTo(otroTipo);   // tipo distinto
+        assertThat(i1.equals(i1)).isTrue();      // igual a sí mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Inventario inventario = Inventario.builder()
+                .id(3L)
+                .cantidad(100)
+                .umbral(20)
+                .build();
+
+        int h1 = inventario.hashCode();
+        int h2 = inventario.hashCode();
+
+        assertThat(h1).isEqualTo(h2);
+    }
+
+
+
+
+
 }

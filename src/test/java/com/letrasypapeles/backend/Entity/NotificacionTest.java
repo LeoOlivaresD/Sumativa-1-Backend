@@ -67,4 +67,19 @@ class NotificacionTest {
 
         assertThat(noti.toString()).contains("id=4", "mensaje=Aviso");
     }
+
+
+
+    @Test
+    void testEqualsExtraCases() {
+        Notificacion base = Notificacion.builder().id(10L).mensaje("Extra").build();
+
+        assertThat(base).isNotEqualTo(null);           // comparación con null
+        assertThat(base).isNotEqualTo("otra clase");   // comparación con otro tipo
+        assertThat(base.equals(base)).isTrue();        // comparación consigo mismo
+
+        Notificacion distinta = Notificacion.builder().id(11L).mensaje("Distinta").build();
+        assertThat(base).isNotEqualTo(distinta);       // distinto contenido
+    }
+
 }

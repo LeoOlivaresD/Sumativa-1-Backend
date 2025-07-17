@@ -61,4 +61,37 @@ class SucursalTest {
 
         assertThat(sucursal.toString()).contains("id=5", "nombre=Sucursal Test", "region=Ñuble");
     }
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        Sucursal s1 = Sucursal.builder().id(1L).nombre("X").build();
+        Sucursal s2 = Sucursal.builder().id(2L).nombre("Y").build();
+        Sucursal s3 = null;
+        String otroTipo = "no es sucursal";
+
+        assertThat(s1).isNotEqualTo(s2);         // objetos distintos
+        assertThat(s1).isNotEqualTo(s3);         // comparación con null
+        assertThat(s1).isNotEqualTo(otroTipo);   // comparación con otro tipo
+        assertThat(s1.equals(s1)).isTrue();      // igualdad consigo mismo
+    }
+
+    @Test
+    void testHashCodeConsistency() {
+        Sucursal sucursal = Sucursal.builder()
+                .id(7L)
+                .nombre("Sucursal Este")
+                .region("Los Lagos")
+                .build();
+
+        int hash1 = sucursal.hashCode();
+        int hash2 = sucursal.hashCode();
+
+        assertThat(hash1).isEqualTo(hash2); // mismo objeto, hash estable
+    }
+
+
+
+
+
+
 }

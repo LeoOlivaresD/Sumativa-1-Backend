@@ -47,4 +47,38 @@ class UserEntityTest {
 
         assertThat(user.toString()).contains("id=2", "username=tester");
     }
+
+
+    @Test
+    void testEqualsWithDifferentObjects() {
+        UserEntity u1 = new UserEntity();
+        u1.setId(1L);
+        u1.setUsername("admin");
+
+        UserEntity u2 = new UserEntity();
+        u2.setId(2L);
+        u2.setUsername("other");
+
+        assertThat(u1).isNotEqualTo(u2);         // objetos distintos
+        assertThat(u1).isNotEqualTo(null);       // comparación con null
+        assertThat(u1).isNotEqualTo("usuario");  // otro tipo
+        assertThat(u1.equals(u1)).isTrue();      // sí mismo
+    }
+
+    @Test
+    void testHashCodeStability() {
+        UserEntity user = new UserEntity();
+        user.setId(3L);
+        user.setUsername("hashuser");
+
+        int hash1 = user.hashCode();
+        int hash2 = user.hashCode();
+
+        assertThat(hash1).isEqualTo(hash2); // hash consistente
+    }
+
+
+
+
+
 }
