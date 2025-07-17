@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,6 +33,9 @@ class ProductoControllerTest {
     @MockBean
     private ProductoService productoService;
 
+    @MockBean
+    private ProductoModelAssembler assembler;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -49,6 +53,7 @@ class ProductoControllerTest {
     @Test
     void testObtenerTodos() throws Exception {
         when(productoService.obtenerTodos()).thenReturn(List.of(producto));
+        when(assembler.toModel(producto)).thenReturn(EntityModel.of(producto));
 
         mockMvc.perform(get("/api/productos"))
                 .andExpect(status().isOk());
@@ -57,6 +62,7 @@ class ProductoControllerTest {
     @Test
     void testObtenerPorId_Existente() throws Exception {
         when(productoService.obtenerPorId(1L)).thenReturn(Optional.of(producto));
+        when(assembler.toModel(producto)).thenReturn(EntityModel.of(producto));
 
         mockMvc.perform(get("/api/productos/1"))
                 .andExpect(status().isOk());
@@ -77,6 +83,36 @@ class ProductoControllerTest {
         mockMvc.perform(post("/api/productos")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(producto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testActualizarProducto_Existente() throws Exception {
+        when(productoService.obtenerPorId(1L)).thenReturn(Optional.of(producto));
+        when(productoService.guardar(any())).thenReturn(producto);
+
+        mockMvc.perform(put("/api/productos/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(producto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void testActualizarProducto_NoExistente() throws Exception {
+        when(productoService.obtenerPorId(99L)).thenReturn(Optional.empty());
+
+        mockMvc.perform(put("/api/productos/99")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(producto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void testEliminarProducto_Existente() throws Exception {
+        when(productoService.obtenerPorId(1L)).thenReturn(Optional.of(producto));
+        doNothing().when(productoService).eliminar(1L);
+
+        mockMvc.perform(delete("/api/productos/1"))
                 .andExpect(status().isOk());
     }
 

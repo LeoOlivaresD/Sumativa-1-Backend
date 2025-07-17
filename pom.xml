@@ -168,6 +168,8 @@
                         <exclude>**/dto/**</exclude>
                         <exclude>**/hateoas/**</exclude>
                         <exclude>**/config/**</exclude>
+                        <exclude>**/BackendApplication*</exclude>
+
                         
                     </excludes>
                 </configuration>
