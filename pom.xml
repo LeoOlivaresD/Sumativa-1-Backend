@@ -135,11 +135,43 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                    <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+
+
             <!-- Jacoco para cobertura al 1% -->
+            <!--
+            Exclusión de paquetes sin lógica de negocio relevante del análisis de cobertura JaCoCo:
+            
+            - dto: Contiene objetos de transferencia de datos sin lógica, solo getters/setters.
+            - hateoas: Contiene ensambladores y utilidades sin lógica testeable significativa.
+            - config: Define beans y configuraciones de Spring, probadas indirectamente por integración.
+                        
+            Esto permite enfocar la cobertura en paquetes con lógica real: controller, service, security.
+            -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.13</version>
+
+                <configuration>
+                    <excludes>
+                        <exclude>**/dto/**</exclude>
+                        <exclude>**/hateoas/**</exclude>
+                        <exclude>**/config/**</exclude>
+                        
+                    </excludes>
+                </configuration>
+
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -166,12 +198,12 @@
                                         <limit>
                                             <counter>BRANCH</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.0</minimum> <!-- % de cobertura en ramas / decisiones condicionales -->
                                         </limit>
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.0</minimum>
+                                            <minimum>0.0</minimum> <!-- % de cobertura en instrucciones -->
                                         </limit>
                                     </limits>
                                 </rule>
@@ -180,6 +212,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+
 
             <!-- Plugin SonarQube -->
             <plugin>

@@ -1,32 +1,45 @@
 package com.letrasypapeles.backend.entity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 
-import com.letrasypapeles.backend.entity.RoleEntity;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RoleEntityTest {
-    //correcion
-    @Test
-    void testConstructorVacio() {
-        RoleEntity role = new RoleEntity();
-        assertNotNull(role);
-    }
 
     @Test
-    void testConstructorConParametro() {
-        RoleEntity role = new RoleEntity("EMPLEADO");
-        assertNotNull(role);
-    }
-
-    @Test
-    void testSettersYGetters() {
+    void testNoArgsConstructorAndSetters() {
         RoleEntity role = new RoleEntity();
         role.setId(1L);
         role.setName("ADMIN");
 
-        assertEquals(1L, role.getId());
-        assertEquals("ADMIN", role.getName());
+        assertThat(role.getId()).isEqualTo(1L);
+        assertThat(role.getName()).isEqualTo("ADMIN");
+    }
+
+    @Test
+    void testNameConstructor() {
+        RoleEntity role = new RoleEntity("USER");
+
+        assertThat(role.getName()).isEqualTo("USER");
+        assertThat(role.getId()).isNull(); // no se ha asignado aún
+    }
+
+    @Test
+    void testEqualsAndHashCode() {
+        RoleEntity r1 = new RoleEntity("MOD");
+        r1.setId(10L);
+        RoleEntity r2 = new RoleEntity("MOD");
+        r2.setId(10L);
+
+        assertThat(r1).isEqualTo(r2);
+        assertThat(r1.hashCode()).isEqualTo(r2.hashCode());
+    }
+
+    @Test
+    void testToString() {
+        RoleEntity role = new RoleEntity("INVITADO");
+        role.setId(99L);
+
+        assertThat(role.toString()).contains("id=99", "name=INVITADO");
     }
 }
