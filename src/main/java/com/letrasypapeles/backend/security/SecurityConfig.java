@@ -40,7 +40,16 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**").permitAll() //Necesario permitir para poder acceder a Open Api teniendo Spring Security
+                        .requestMatchers(
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/images/**",
+                            "/swagger-ui.html",
+                            "/index.html",
+                            "/swagger-ui/swagger-ui.css",
+                            "/swagger-ui/swagger-ui-bundle.js",
+                            "/swagger-ui/custom.css"                       
+                            ).permitAll() //Necesario permitir para poder acceder a Open Api teniendo Spring Security
                         .requestMatchers("/empleado").hasRole("EMPLEADO")
                         .requestMatchers("/gerente").hasRole("GERENTE")
                         .requestMatchers("/cliente").hasRole("CLIENTE")

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Letras y Papeles API Docs</title>
+
+    <!-- ✅ Ícono personalizado -->
+    <link rel="icon" type="image/png" href="images/logo.png" />
+
+    <!-- ✅ Estilos de Swagger y personalizados -->
+    <link rel="stylesheet" type="text/css" href="swagger-ui/swagger-ui.css" />
+    <link rel="stylesheet" type="text/css" href="swagger-ui/custom.css" />
+</head>
+
+<body>
+    <div id="swagger-ui"></div>
+
+    <!-- ✅ Scripts de Swagger -->
+    <script src="swagger-ui/swagger-ui-bundle.js"></script>
+
+    <!-- ✅ Inicialización -->
+    <script>
+        window.onload = () => {
+            SwaggerUIBundle({
+                url: "/v3/api-docs",
+                dom_id: "#swagger-ui",
+                presets: [SwaggerUIBundle.presets.apis],
+                layout: "BaseLayout"
+            });
+        };
+    </script>
+</body>
+
+</html>

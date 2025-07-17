@@ -1,0 +1,13 @@
+url: /v3/api-docs
+dom_id: '#swagger-ui'
+layout: "BaseLayout"
+deepLinking: true
+displayOperationId: false
+defaultModelsExpandDepth: 1
+defaultModelExpandDepth: 1
+defaultModelRendering: "example"
+displayRequestDuration: true
+docExpansion: "none"
+showExtensions: true
+showCommonExtensions: true
+favicon: "/images/logo.png"
