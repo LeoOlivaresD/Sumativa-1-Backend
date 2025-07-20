@@ -69,6 +69,7 @@ docker run -d --name mysql-letras -p 3306:3306 \
 # 3. Ejecutar aplicación desde tu IDE (IntelliJ, VS Code, etc.)
 # o con Maven:
 mvn spring-boot:run
+```
 
 ### 🔐 Seguridad y autenticación
 La API cuenta con seguridad basada en:
@@ -80,6 +81,7 @@ La API cuenta con seguridad basada en:
 🔒 Protección de endpoints sensibles mediante filtros
 
 🔑 Ejemplo de Login
+```markdown
 ```http
 POST /auth/login
 Content-Type: application/json
@@ -88,14 +90,16 @@ Content-Type: application/json
   "username": "admin",
   "password": "admin123"
 }
+```
 
 
 Respuesta:
+```markdown
 ```http
 {
   "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
-
+```
 
 ### 📘 Documentación de la API
 🔎 Swagger UI: http://localhost:8080/swagger-ui/index.html
