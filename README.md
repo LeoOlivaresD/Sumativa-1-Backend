@@ -84,7 +84,6 @@ La API cuenta con seguridad basada en:
 
 
 🔑 Ejemplo de Login
-```markdown
 ```http
 POST /auth/login
 Content-Type: application/json
@@ -96,13 +95,14 @@ Content-Type: application/json
 ```
 
 
-Respuesta:
-```markdown
+📥 Respuesta:
 ```http
 {
   "token": "eyJhbGciOiJIUzI1NiJ9..."
 }
 ```
+
+---
 
 ## 📘 Documentación de la API
 🔎 Swagger UI: http://localhost:8080/swagger-ui/index.html
@@ -111,16 +111,17 @@ Respuesta:
 
 🔗 Respuestas HATEOAS: disponibles en endpoints como /products, /users, etc.
 
-
+---
 
 ## 🧪 Pruebas y cobertura
 El sistema implementa pruebas unitarias exhaustivas, logrando un 100% de cobertura de ramas (branch coverage) gracias a JaCoCo.
 
+---
 
 ## 📄 Licencia
 Proyecto con fines educativos para Duoc UC. No se autoriza su reproducción o distribución sin consentimiento de los autores.
 
-
+---
 
 ## ✉️ Contacto
 Para dudas académicas o técnicas, contactarse vía canal oficial AVA Duoc o GitHub Issues del repositorio.
