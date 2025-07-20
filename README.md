@@ -71,7 +71,9 @@ docker run -d --name mysql-letras -p 3306:3306 \
 mvn spring-boot:run
 ```
 
-### 🔐 Seguridad y autenticación
+---
+
+## 🔐 Seguridad y autenticación
 La API cuenta con seguridad basada en:
 
 🔐 Autenticación JWT sin estado
@@ -79,6 +81,7 @@ La API cuenta con seguridad basada en:
 👤 Autorización por roles (ROLE_USER, ROLE_ADMIN, ROLE_EMPLOYEE)
 
 🔒 Protección de endpoints sensibles mediante filtros
+
 
 🔑 Ejemplo de Login
 ```markdown
@@ -101,7 +104,7 @@ Respuesta:
 }
 ```
 
-### 📘 Documentación de la API
+## 📘 Documentación de la API
 🔎 Swagger UI: http://localhost:8080/swagger-ui/index.html
 
 📄 OpenAPI JSON: http://localhost:8080/v3/api-docs
@@ -110,14 +113,14 @@ Respuesta:
 
 
 
-### 🧪 Pruebas y cobertura
+## 🧪 Pruebas y cobertura
 El sistema implementa pruebas unitarias exhaustivas, logrando un 100% de cobertura de ramas (branch coverage) gracias a JaCoCo.
 
 
-### 📄 Licencia
+## 📄 Licencia
 Proyecto con fines educativos para Duoc UC. No se autoriza su reproducción o distribución sin consentimiento de los autores.
 
 
 
-### ✉️ Contacto
+## ✉️ Contacto
 Para dudas académicas o técnicas, contactarse vía canal oficial AVA Duoc o GitHub Issues del repositorio.
