@@ -8,26 +8,24 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder 
-@Getter
-@Setter
+@Builder
 public class RoleEntity {
-    public RoleEntity(String name) {
-        this.name = name; // nuevo
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
 
+    // Constructor personalizado (cubierto en tests)
+    public RoleEntity(String name) {
+        this.name = name;
+    }
 }

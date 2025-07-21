@@ -169,6 +169,7 @@
                         <exclude>**/hateoas/**</exclude>
                         <exclude>**/config/**</exclude>
                         <exclude>**/BackendApplication*</exclude>
+                        <exclude>**/entity/*</exclude>
 
                         
                     </excludes>
